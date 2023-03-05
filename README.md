@@ -13,5 +13,4 @@ python3 chatREP.py --youtube_url https://www.youtube.com/watch?v=aF8KeBDZcfY --o
 ```
 
 ## Work
-
-![image](https://github.com/water25234/golang-shorturl/blob/main/1678023346911.jpg)
+![image](https://github.com/water25234/ChatREP/blob/main/1678023346911.jpg)
