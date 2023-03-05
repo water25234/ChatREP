@@ -8,7 +8,7 @@ from pydub import AudioSegment
 from urllib.parse import urlparse, parse_qs
 
 class CHATREP:
-    def __init__(self, url, openai_api_key):
+    def __init__(self, url: str, openai_api_key: str):
         self.url = url
         self.openai_api_key = openai_api_key
 
@@ -23,7 +23,7 @@ class CHATREP:
 
         self.makeReadingExperienceByChatGPT(transcript_array)
 
-    def makeYTDlp(self, url):
+    def makeYTDlp(self, url: str):
         print('execute YT DLP')
         parsed_url = urlparse(url)
 
@@ -49,7 +49,7 @@ class CHATREP:
         sound = AudioSegment.from_file(video_id + '.mp3', format='mp3')
         return sound
     
-    def makeSplitVidoe(self, sound):
+    def makeSplitVidoe(self, sound: AudioSegment) -> list:
         print('execute split video')
         # split video by millisecond
         segment_length = 1000000
@@ -63,7 +63,7 @@ class CHATREP:
         return video_array
     
     # download word form video by whisper
-    def makeWordByWhisper(self, video_array):
+    def makeWordByWhisper(self, video_array: list) -> list:
         print('execute whisper')
         transcript = ''
         for i in video_array:
@@ -86,7 +86,7 @@ class CHATREP:
         return transcript_array
     
     # call chatGPT 
-    def makeReadingExperienceByChatGPT(self, transcript_array):
+    def makeReadingExperienceByChatGPT(self, transcript_array: list) -> None:
         print('execute chatGPT')
 
         result_array = []
