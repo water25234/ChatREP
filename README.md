@@ -1,5 +1,9 @@
+```shell
+# install
+brew install ffmpeg
+
 pip3 install -r requirements.txt
 
-python3 chatREP.py --youtube_url https://www.youtube.com/watch?v=PRp3kJtMQwU --openai_key ${openai_key}
-
-brew install ffmpeg
+# execute command line
+python3 chatREP.py --youtube_url https://www.youtube.com/watch?v=aF8KeBDZcfY --openai_key ${openai_key}
+```
