@@ -94,14 +94,14 @@ class CHATREP:
             completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "你現在是閱讀書籍者，請將寫出文章的摘要，並且以繁體中文輸出"},
+                    {"role": "system", "content": "你現在是閱讀書籍者，請寫出文章的摘要，並且以繁體中文輸出"},
                     {"role": "user", "content": t}
                 ]
             )
             result_array.append(completion.choices[0].message)
 
         print()
-        print('Hey ChatGPT, 你現在是閱讀書籍者，請將寫出文章的摘要，並且以繁體中文輸出: ')
+        print('Hey ChatGPT, 你現在是閱讀書籍者，請寫出文章的摘要，並且以繁體中文輸出: ')
 
         for res in result_array:
             print()
