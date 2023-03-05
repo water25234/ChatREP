@@ -1,3 +1,5 @@
+# ChatGPT & Whisper
+
 ## Install
 ```shell
 # install
