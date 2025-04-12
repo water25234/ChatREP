@@ -3,7 +3,8 @@ import openai
 import yt_dlp
 import argparse
 
-from os import environ as env
+from dotenv import load_dotenv
+import os
 from pydub import AudioSegment
 from urllib.parse import urlparse, parse_qs
 
@@ -15,20 +16,23 @@ class CHATREP:
         openai.api_key = openai_api_key
 
     def execute(self):
-        sound = self.makeYTDlp(url)
+        video_id = self.extract_video_id(url)
+
+        sound = self.makeYTDlp(url, video_id)
 
         video_array = self.makeSplitVidoe(sound)
 
-        transcript_array = self.makeWordByWhisper(video_array)
+        transcript_array = self.makeWordByWhisper(video_array, video_id)
 
         self.makeReadingExperienceByChatGPT(transcript_array)
-
-    def makeYTDlp(self, url: str):
-        print('execute YT DLP')
+    
+    def extract_video_id(self, url: str) -> str:
         parsed_url = urlparse(url)
-
         query_params = parse_qs(parsed_url.query)
-        video_id = query_params['v'][0]
+        return query_params['v'][0]
+
+    def makeYTDlp(self, url: str, video_id: str) -> AudioSegment:
+        print('execute YT DLP')
 
         # setting yt_dlp
         ydl_opts = {
@@ -63,7 +67,7 @@ class CHATREP:
         return video_array
     
     # download word form video by whisper
-    def makeWordByWhisper(self, video_array: list) -> list:
+    def makeWordByWhisper(self, video_array: list, video_id: str) -> list:
         print('execute whisper')
         transcript = ''
         for i in video_array:
@@ -73,6 +77,9 @@ class CHATREP:
             transcript_whisper = openai.Audio.transcribe("whisper-1", audio_file)
 
             transcript = transcript + ' ' + transcript_whisper.to_dict().get('text')
+
+        with open(video_id + '.txt', 'w') as file:
+            file.write(transcript)
 
         ret = ''
         transcript_array = []
@@ -92,7 +99,7 @@ class CHATREP:
         result_array = []
         for t in transcript_array:
             completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "你現在是閱讀書籍者，請寫出文章的摘要，並且以繁體中文輸出"},
                     {"role": "user", "content": t}
@@ -130,9 +137,14 @@ if __name__ == "__main__":
 
     options = parser.parse_args()
 
-    OPENAI_API_KEY = options.openai_key or env.get("OPENAI_API_KEY")
+    load_dotenv()
+    OPENAI_API_KEY = options.openai_key or os.getenv("OPENAI_API_KEY")
 
     url = options.youtube_url
+    if not url:
+        raise ValueError("YouTube URL is required.")
+    if not OPENAI_API_KEY:
+        raise ValueError("OpenAI API key is required.")
 
     chatREP = CHATREP(url, OPENAI_API_KEY)
 
