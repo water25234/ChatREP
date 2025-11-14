@@ -85,7 +85,7 @@ class CHATREP:
         transcript_array = []
         for script in transcript.split():
             ret = ret + ' ' + script
-            if len(ret) > 10000:
+            if len(ret) > 50000:
                 transcript_array.append(ret)
                 ret = ''
         transcript_array.append(ret)
