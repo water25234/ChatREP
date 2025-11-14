@@ -85,7 +85,7 @@ class CHATREP:
         transcript_array = []
         for script in transcript.split():
             ret = ret + ' ' + script
-            if len(ret) > 1000:
+            if len(ret) > 10000:
                 transcript_array.append(ret)
                 ret = ''
         transcript_array.append(ret)
@@ -99,7 +99,7 @@ class CHATREP:
         result_array = []
         for t in transcript_array:
             completion = openai.ChatCompletion.create(
-                model="gpt-4o",
+                model="gpt-5-mini",
                 messages=[
                     {"role": "system", "content": "你現在是閱讀書籍者，請寫出文章的摘要，並且以繁體中文輸出"},
                     {"role": "user", "content": t}

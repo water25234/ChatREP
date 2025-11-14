@@ -16,3 +16,5 @@ python3 chatREP.py --youtube_url "https://www.youtube.com/watch?v=aF8KeBDZcfY" -
 
 ## Work
 ![image](https://github.com/water25234/ChatREP/blob/main/1678023346911.jpg)
+
+python3 chatREP.py --youtube_url "https://www.youtube.com/watch?v=C3dDKvUiduo"
